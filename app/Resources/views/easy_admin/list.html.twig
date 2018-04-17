@@ -1,0 +1,17 @@
+{% extends '@EasyAdmin/default/list.html.twig' %}
+{% block global_actions %}
+    {{ parent() }}
+    <div class="button-action">
+        <a class="btn btn-flat fa fa-download">
+            Export
+        </a>
+    </div>
+    <div class="button-action">
+        <a class="btn btn-default fa fa-file-pdf-o">
+            PDF
+        </a>
+    </div>
+{% endblock global_actions %}
+{% block body_javascript %}
+    {{ parent() }}
+{% endblock %}

@@ -1,0 +1,48 @@
+security:
+
+    encoders:
+        AppBundle\Entity\Users: bcrypt
+
+    # TODO : Trouver comment gérer le rôle d'un rédacteur
+    role_hierarchy:
+            ROLE_ADMIN:       ROLE_USER
+            ROLE_SUPER_ADMIN: ROLE_ADMIN
+
+    providers:
+        my_provider:
+            entity: { class: AppBundle:Users, property: username }
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            pattern: ^/
+            anonymous: true
+
+            provider: my_provider
+
+            form_login:
+                login_path: login_route
+                check_path: login_check
+                default_target_path: easyadmin
+                always_use_default_target_path: true
+            logout:
+                path:   /logout
+
+#                failure_path: /foo
+                #csrf_token_generator: security.csrf.token_manager
+
+    access_control:
+        # TODO : Corriger le bug de connexion d'un utilisateur
+        - { path: ^/login,          roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/inscription,    roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
+        # Users access
+        - { path: ^/, roles: ROLE_USER }
+
+        # Admin access
+        #- { path: ^/admin/, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_SUPER_ADMIN }

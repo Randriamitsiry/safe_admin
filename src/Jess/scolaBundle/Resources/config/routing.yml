@@ -1,0 +1,3 @@
+jess_scola_homepage:
+    path:     /
+    defaults: { _controller: JessScolaBundle:Default:index }

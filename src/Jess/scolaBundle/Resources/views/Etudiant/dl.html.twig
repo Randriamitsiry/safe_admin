@@ -1,0 +1,19 @@
+{% extends "JesstutoBundle::base.html.twig" %}
+{% block content %}
+    {{ form_start(frm) }}
+    <input type="submit" value="Delete">
+    {{ form_end(frm) }}
+
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script>
+        $(function(){
+            console.log("Ökay man");
+            $.get("{{ path('ajax') }}",function(rep){
+                console.log($(rep).toJSON());
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,15 @@
+
+{{% extends "JesstutoBundle::base.html.twig" %}
+
+{% block body %}
+
+    {% for pr in prs %}
+        <h1>{{ pr.title }}</h1>
+        {% for transition in workflow_transitions(pr) %}
+            <a href="#">{{ transition.name }}</a>
+        {% else %}
+            No actions available.
+        {% endfor %}
+    {% endfor %}
+
+{% endblock %}

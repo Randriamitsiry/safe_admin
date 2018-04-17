@@ -1,0 +1,7 @@
+{% extends "JesstutoBundle::base.html.twig" %}
+{% block content %}
+    {{ form(form) }}
+    {{ form_start(delete_form) }}
+        <input type="submit" value="delete">
+    {{ form_end(delete_form) }}
+{% endblock %}

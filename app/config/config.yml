@@ -1,0 +1,263 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+    - { resource: workflow.yml }
+    #- { resource: "@AppBundle/Resources/config/services.yml" }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: en
+    avatar_directory: "/uploads/avatar"
+    avatars_directory : "%kernel.root_dir%/../web/uploads/avatar"
+    etudiant_directory : "%kernel.root_dir%/../web/uploads/etudiant"
+
+framework:
+    #esi:             ~
+    default_locale: 'fr'
+    translator:
+         { fallbacks: ["en"] }
+    secret:          "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    #serializer:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale:  "%locale%"
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    session:
+        # http://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+        handler_id:  session.handler.native_file
+        save_path:   "%kernel.root_dir%/../var/sessions/%kernel.environment%"
+    fragments:       ~
+    http_method_override: true
+    assets: ~
+    serializer:
+        enabled: true
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    globals:
+            avatar_directory:   "%avatar_directory%"
+            fos_csrf_provider: "@security.csrf.token_manager"
+    form_themes:
+                - 'bootstrap_3_layout.html.twig'
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   pdo_mysql
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
+        charset:  UTF8
+
+        # if using pdo_sqlite as your database driver:
+        #   1. add the path in parameters.yml
+        #     e.g. database_path: "%kernel.root_dir%/../var/data/data.sqlite"
+        #   2. Uncomment database_path in parameters.yml.dist
+        #   3. Uncomment next line:
+        #path:     "%database_path%"
+
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    spool:     { type: memory }
+
+fos_rest:
+    routing_loader:
+        include_format: false
+    view:
+        view_response_listener: true
+    #format listener, automatique pour json
+    format_listener:
+            rules:
+                - { path: '^/api', priorities: ['json'], fallback_format: 'json' }
+                - { path: '^/', priorities: [ 'html', '*/*'], fallback_format: html, prefer_extension: true }
+    body_listener:
+        enabled: false
+
+easy_admin:
+
+    entities:
+        Etudiants:
+              class: AppBundle\Entity\Etudiants
+
+              new:
+                  fields:
+                    - { property: 'photos', type: 'file'}
+                    - { property: 'nom'}
+                    - { property: 'prenom'}
+                    - { property: 'sexe', type: choice, type_options: {choices : {'Masculin': 'M', 'Féminin':'F'}}}
+                    - { property: 'dateNaissance', type: "birthday", label: "Date de naissance"}
+                    - { property: 'lieuNaissance', label: "Lieu de naissance" }
+                    - { property: 'telephone'}
+                    - { property: 'email', type: "email"}
+                    - { property: 'situationMatrimoniale', label: "situation", type: choice, type_options: {choices : {"Célibataire": "C", "Marié(e)":"M", "Veuf(ve)":"V"}}}
+                    - { property: 'cin', label: "CIN"}
+              edit:
+                  fields:
+
+                    - { property: 'nom'}
+                    - { property: 'prenom'}
+                    - { property: 'sexe', type: choice, type_options: {choices : {'Masculin': 'Masculin', 'Féminin':'Féminin'}}}
+                    - { property: 'dateNaissance', type: "birthday", label: "Date de naissance"}
+                    - { property: 'lieuNaissance', label: "Lieu de naissance" }
+                    - { property: 'telephone'}
+                    - { property: 'email', type: "email"}
+                    - { property: 'situationMatrimoniale', label: "situation", type: choice, type_options: {choices : {"Célibataire": "C", "Marié(e)":"M", "Veuf(ve)":"V"}}}
+                    - { property: 'cin', label: "CIN"}
+              list:
+                  actions: ["show"]
+                  fields:
+                    - { property: 'photos', type: 'image', base_path: "/uploads/etudiant" }
+                    - { property: 'nom'}
+                    - { property: 'prenom'}
+                    #- { property: 'sexe'}
+                    #- { property: 'dateNaissance', type: "birthday", label: "Date de naissance"}
+                    #- { property: 'lieuNaissance', label: "Lieu de naissance" }
+                    - { property: 'telephone'}
+                    - { property: 'email', type: "email"}
+                    #- { property: 'situationMatrimoniale', label: "situation"}
+                    #- { property: 'cin', label: "CIN"}
+              show:
+                fields:
+                    - { property: 'photos', type: 'image', base_path: "/uploads/etudiant" }
+                    - { property: 'nom'}
+                    - { property: 'prenom'}
+                    - { property: 'sexe'}
+                    - { property: 'dateNaissance'}
+                    - { property: 'lieuNaissance', label: "Lieu de naissance" }
+                    - { property: 'telephone'}
+                    - { property: 'email', type: "email"}
+                    - { property: 'situationMatrimoniale'}
+                    - { property: 'cin', label: "CIN"}
+        Directeur:
+            class: AppBundle\Entity\Directeur
+            list:
+                fields: ['nom',{property: "tel", label: "Telephone" },  "email"]
+            form:
+              fields:
+                - { property: 'civilite', type: choice, type_options: {choices: {'Monsieur':'Mr', 'Madame':'Mme'}}}
+                - { property: 'nom'}
+                - { property: 'prenom'}
+                - { property: 'email', type: "email"}
+                - { property: 'tel', label: "Telephone"}
+                - { property: 'dateNaissance', label: "Né(e le", type : "birthday"}
+                - { property: 'Etablissement'}
+
+        Etablissement:
+            class: AppBundle\Entity\Etablissement
+
+            show :
+                fields:
+                    - { property: 'logo',type: "image", base_path:"/uploads/logo"}
+                    - { property: 'sigle'}
+                    - { property: 'nom'}
+                    - { property: 'dateCreation'}
+                    - { property: 'siteweb'}
+                    - { property: 'adresse'}
+                    - { property: 'email'}
+                    - { property: 'formations'}
+            list:
+              actions : ["show"]
+              fields:
+                - { property: 'logo',type: "image", base_path:"/uploads/logo"}
+                - { property: 'sigle'}
+                - { property: 'nom'}
+                - { property: 'dateCreation'}
+                - { property: 'siteweb'}
+                - { property: 'adresse'}
+                - { property: 'email'}
+                - { property: 'directeur'}
+                - { property: 'formations'}
+
+            form:
+              fields:
+                - { property: 'logo',type_options: {data_class: null}}
+                - { property: 'sigle'}
+                - { property: 'nom'}
+                - { property: 'dateCreation'}
+                - { property: 'siteweb'}
+                - { property: 'adresse'}
+                - { property: 'email'}
+                - { property: 'directeur'}
+                - { property : 'formations', type : collection, type_options: {entry_type: 'AppBundle\Form\FormationType', allow_add: true, allow_delete: true, by_reference: false}}
+
+        Formation :
+            class: AppBundle\Entity\Formation
+            templates:
+                  field_id: 'admin/_id.html.twig'
+            form:
+                fields:
+                  - { property: 'libelle'}
+
+        Inscription:
+            class : AppBundle\Entity\Inscription
+
+        Niveau :
+            class: AppBundle\Entity\Niveau
+
+        Obtention:
+            class: AppBundle\Entity\Obtention
+
+        AnneeScolaire :
+            class: AppBundle\Entity\AnneeScolaire
+        Users :
+            class: AppBundle\Entity\Users
+
+    list:
+        title: 'LISTE %%entity_label%%'
+        actions : ["show"]
+    show:
+        title: '%%entity_label%% [(%%entity_id%%)]'
+    new:
+        title: 'Ajouter %%entity_label%%'
+    site_name: "Administration"
+
+    formats:
+            date: 'd/M/Y'
+    design:
+      form_theme: 'horizontal'
+
+      menu:
+        - {entity : "Etudiants", icon: "user", label: "Etudiant"}
+        - {entity : "Directeur", icon: "group"}
+        - {entity : "Etablissement", icon: "home"}
+        - {entity : "Formation", icon: "book"}
+        - {entity : "Inscription", icon: "check"}
+        - {entity : "Niveau", icon: "ticket"}
+        - {entity : "Obtention", icon: "ship"}
+        - {entity : "AnneeScolaire", label: "Année", icon: "barcode"}
+        - {entity : "Users", label: "Utilisateur", icon: "user"}
+        - {label: "Logout" , url :  '/logout' ,icon: "sign-out"}
+
+#fos_user:
+#    db_driver: orm
+#    firewall_name: main
+#    user_class: AppBundle\Entity\Users
+#    from_email:
+#        address: "tsiryjessgabriel@gmail.com"
+#        sender_name: "Jess"
+
+
+
+

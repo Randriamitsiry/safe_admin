@@ -1,0 +1,48 @@
+{% extends "JesstutoBundle::base.html.twig" %}
+{% block content %}
+    <table class="table table-bordered">
+        <thead>
+            <th>NOM</th>
+            <th>ADRESSE</th>
+            <th>TELEPHONE</th>
+            <th></th>
+        </thead>
+    {% for item in items %}
+        <tr class="red bg-info">
+            <td>{{ item.nom }}</td>
+            <td>{{ item.adresse }}</td>
+            <td>{{ item.telephone }}</td>
+            <td>
+                <a href="{{ path("note_etudiant", {"id":item.id}) }}">Notes</a>
+                <a href="{{ path("edit_etudiant", {"id":item.id}) }}">Edit</a>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <h4>Matières suivis</h4>
+                <table class="table table-secondary" style="background-color: #818182; text-decoration-color: #9fcdff;">
+                    <thead>
+                        <th>
+                            Nom
+                        </th>
+                        <th>
+                            Coefficient
+                        </th>
+                        <th></th>
+                    </thead>
+                {% for mat in item.matieres %}
+                    <tr class="fa-si">
+                        <td>{{ mat.nom }}</td>
+                        <td>{{ mat.coefficient }}</td>
+                        <td style="width: 5%;">
+                            <a href="{{ path("delete_associated_matiere", {"idE":item.id, "idM":mat.id}) }}" style="color: red" class="fa fa-remove"></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </table>
+            </td>
+
+        </tr>
+    {% endfor %}
+    </table>
+{% endblock %}
