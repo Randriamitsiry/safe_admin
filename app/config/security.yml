@@ -41,7 +41,7 @@ security:
         - { path: ^/inscription,    roles: IS_AUTHENTICATED_ANONYMOUSLY }
 
         # Users access
-        - { path: ^/, roles: ROLE_USER }
+        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
 
         # Admin access
         #- { path: ^/admin/, roles: ROLE_ADMIN }

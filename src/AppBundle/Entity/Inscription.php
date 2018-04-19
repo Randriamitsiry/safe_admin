@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Inscription
  *
  * @ORM\Table(name="inscription")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\InscriptionRepository")
  */
 class Inscription
 {
