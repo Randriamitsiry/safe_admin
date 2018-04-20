@@ -169,7 +169,7 @@ easy_admin:
 
             show :
                 fields:
-                    - { property: 'logo',type: "image", base_path:"/uploads/logo"}
+                    - { property: 'logo',type: "image", base_path: "/uploads/logo"}
                     - { property: 'sigle'}
                     - { property: 'nom'}
                     - { property: 'dateCreation'}
@@ -180,7 +180,7 @@ easy_admin:
             list:
               actions : ["show"]
               fields:
-                - { property: 'logo',type: "image", base_path:"/uploads/logo"}
+                - { property: 'logo',type: "image", base_path: "/uploads/logo"}
                 - { property: 'sigle'}
                 - { property: 'nom'}
                 - { property: 'dateCreation'}
@@ -223,6 +223,34 @@ easy_admin:
             class: AppBundle\Entity\AnneeScolaire
         Users :
             class: AppBundle\Entity\Users
+            list :
+              fields:
+                - { property : "avatar", type: "image",  base_path: "/uploads/avatar"}
+                - "lastName"
+                - "firstName"
+                - "email"
+                - "etablissement"
+                - "isActive"
+
+            form :
+              fields:
+                - { property: "avatar", type: "file",  type_options: { data_class: null } }
+                - "lastName"
+                - "firstName"
+                - "email"
+                - "emailSecours"
+                - "etablissement"
+                - { property: "password", type: "repeated", type_options: { type : Symfony\Component\Form\Extension\Core\Type\PasswordType, first_options: { label: "Password"}, second_options: { label: "Re-write password"} }}
+                - "roles"
+            show :
+              fields:
+                - { property: "avatar", type: "image",  base_path: "/uploads/avatar"}
+                - "lastName"
+                - "firstName"
+                - "email"
+                - "emailSecours"
+                - "etablissement"
+                - "roles"
 
     list:
         title: 'LISTE %%entity_label%%'

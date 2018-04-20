@@ -28,7 +28,7 @@ class DefaultController extends Controller
 
         $inscription = $this->getDoctrine()->getRepository(Inscription::class)->getInscription($idE);
 
-        //return new Response(var_dump($inscription));
+        //return new Response(var_dump($obtention));
         return $this->render("AppBundle:Default:result.html.twig", array("results"=>$obtention, "inscription"=>$inscription));
     }
 

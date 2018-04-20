@@ -24,7 +24,14 @@ class AdminController extends BaseAdminController
      */
     public function indexAction(Request $request)
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
+        $denied = ["Users", "Etablissement", "Etudiant", "Directeur"];
+        if ( in_array($request->query->get("entity"), $denied))
+        {
+            $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN', null, 'Vous ne pouvez pas accèdez à cette page');
+        } else {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Vous ne pouvez pas accèdez à cette page');
+        }
+
         return parent::indexAction($request);
     }
     /**
@@ -42,5 +49,23 @@ class AdminController extends BaseAdminController
         }
 
         parent::preUpdateEntity($entity);
+    }
+
+    public function exportAction()
+    {
+        exec("wkhtmltopdf www.google.com test.pdf");
+    }
+
+    /**
+     * @Route("/test", name="test")
+     */
+    public function testAction()
+    {
+        return new Response("OK");
+    }
+
+    public function pdfAction()
+    {
+
     }
 }

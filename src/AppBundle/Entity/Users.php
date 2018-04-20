@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * User
  * @ORM\Entity
  * @ORM\Table(name="user_data")
+ * @ORM\HasLifecycleCallbacks
  */
 class Users implements UserInterface, \Serializable
 {
@@ -455,9 +456,9 @@ class Users implements UserInterface, \Serializable
     }
 
     /**
-     * @param Role $roles
+     * @param Role[] $roles
      */
-    public function setRoles(Role $roles)
+    public function setRoles($roles)
     {
         $this->roles = $roles;
     }
@@ -481,4 +482,19 @@ class Users implements UserInterface, \Serializable
      * the plain-text password is stored on this object.
      */
     public function eraseCredentials() {}
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function setCustomData()
+    {
+        $fileName = md5(uniqid()).'.'.$this->getAvatar()->guessExtension();
+        try {
+            $this->avatar->move("../web/uploads/avatar", $fileName);
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+
+        $this->setAvatar($fileName);
+    }
 }

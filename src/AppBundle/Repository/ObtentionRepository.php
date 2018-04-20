@@ -21,8 +21,9 @@ class ObtentionRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder("Ob");
         $query = $qb->join("Ob.idInscription", "inscription")
-            ->addSelect("inscription")->join("inscription.etudiant", "etudiant")
-            ->addSelect("inscription")->join("inscription.Formation", "formation")
+            ->join("inscription.etudiant", "etudiant")
+            ->join("inscription.Formation", "formation")
+            ->addSelect("inscription")
             ->addSelect("formation")
             ->addSelect("etudiant")
             ->where("etudiant.idetudiant = :idE")

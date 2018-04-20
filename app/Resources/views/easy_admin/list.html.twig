@@ -2,12 +2,12 @@
 {% block global_actions %}
     {{ parent() }}
     <div class="button-action">
-        <a class="btn btn-flat fa fa-download">
+        <a class="btn btn-flat fa fa-download" href="{{ path('easyadmin', _request_parameters|merge({ action: "export" })) }}">
             Export
         </a>
     </div>
     <div class="button-action">
-        <a class="btn btn-default fa fa-file-pdf-o">
+        <a class="btn btn-default fa fa-file-pdf-o" href="{{ path('easyadmin', _request_parameters|merge({ action: "pdf" })) }}">
             PDF
         </a>
     </div>
