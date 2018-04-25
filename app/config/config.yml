@@ -188,7 +188,7 @@ easy_admin:
                 - { property: 'adresse'}
                 - { property: 'email'}
                 - { property: 'directeur'}
-                - { property: 'formations'}
+                - { property: 'formations', type: "array"}
 
             form:
               fields:
@@ -221,6 +221,9 @@ easy_admin:
 
         AnneeScolaire :
             class: AppBundle\Entity\AnneeScolaire
+        Contact :
+            class: AppBundle\Entity\Contact
+            disabled_actions: ['edit', 'add']
         Users :
             class: AppBundle\Entity\Users
             list :
@@ -276,7 +279,9 @@ easy_admin:
         - {entity : "Obtention", icon: "ship"}
         - {entity : "AnneeScolaire", label: "Année", icon: "barcode"}
         - {entity : "Users", label: "Utilisateur", icon: "user"}
+        - {entity : "Contact", label: "Contact", icon: "mail-forward"}
         - {label: "Logout" , url :  '/logout' ,icon: "sign-out"}
+
 
 #fos_user:
 #    db_driver: orm

@@ -47,6 +47,9 @@
                 <li class="nav-item mx-0 mx-lg-1">
                     <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact">Notes</a>
                 </li>
+                <li class="nav-item mx-0 mx-lg-1">
+                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="{{ path('app_default_index') }}">Nouvel recherche</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -133,7 +136,7 @@
 <!-- Contact Section -->
 <section id="contact">
     <div class="container">
-        <h2 class="text-center text-uppercase text-secondary mb-0">Remarque à propos de ce candidat</h2>
+        <h2 class="text-center text-uppercase text-secondary mb-0">Remarque</h2>
         <hr class="star-dark mb-5">
         <div class="row">
             <div class="col-lg-8 mx-auto">
@@ -143,28 +146,28 @@
                     <div class="control-group">
                         <div class="form-group floating-label-form-group controls mb-0 pb-2">
                             <label>Nom</label>
-                            <input class="form-control" id="name" name="nom" type="text" placeholder="Name" required="required" data-validation-required-message="Please enter your name.">
+                            <input class="form-control" id="name" name="nom" type="text" placeholder="Name" required="required" data-validation-required-message="Votre nom s'il vous plait">
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
                     <div class="control-group">
                         <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                            <label>Email Address</label>
-                            <input class="form-control" id="email" type="email" name="email" placeholder="Email Address" required="required" data-validation-required-message="Please enter your email address.">
+                            <label>Adresse email</label>
+                            <input class="form-control" id="email" type="email" name="email" placeholder="Email Address" required="required" data-validation-required-message="Votre adresse email">
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
                     <div class="control-group">
                         <div class="form-group floating-label-form-group controls mb-0 pb-2">
                             <label>Message</label>
-                            <textarea class="form-control" id="message" name="message" rows="5" placeholder="Message" required="required" data-validation-required-message="Please enter a message."></textarea>
+                            <textarea class="form-control" id="message" name="message" rows="5" placeholder="Message" required="required" data-validation-required-message="Mettez ici le contenu de votre message"></textarea>
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
                     <br>
                     <div id="success"></div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton">Send</button>
+                        <input type="submit" class="btn btn-primary btn-xl" value="Envoyer" id="sendMessageButton"/>
                     </div>
                 </form>
             </div>
@@ -177,12 +180,12 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4 mb-5 mb-lg-0">
-                <h4 class="text-uppercase mb-4">Location</h4>
-                <p class="lead mb-0">2215 John Daniel Drive
-                    <br>Clark, MO 65243</p>
+                <h4 class="text-uppercase mb-4">Geek inside</h4>
+                <p class="lead mb-0">Adresse / Appartement
+                    <br>(+261) 34 97 889 05 / (+261) 34 20 772 92</p>
             </div>
             <div class="col-md-4 mb-5 mb-lg-0">
-                <h4 class="text-uppercase mb-4">Around the Web</h4>
+                <h4 class="text-uppercase mb-4">Suivez-nous sur nos réseaux</h4>
                 <ul class="list-inline mb-0">
                     <li class="list-inline-item">
                         <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
@@ -212,9 +215,7 @@
                 </ul>
             </div>
             <div class="col-md-4">
-                <h4 class="text-uppercase mb-4">About Freelancer</h4>
-                <p class="lead mb-0">Freelance is a free to use, open source Bootstrap theme created by
-                    <a href="http://startbootstrap.com">Start Bootstrap</a>.</p>
+                <h5 class="text-uppercase mb-4">Degree search engine</h5>
             </div>
         </div>
     </div>
@@ -222,7 +223,7 @@
 
 <div class="copyright py-4 text-center text-white">
     <div class="container">
-        <small>Copyright &copy; Your Website 2018</small>
+        <small>Copyright &copy; Safe 2018</small>
     </div>
 </div>
 
@@ -251,6 +252,8 @@
     $(function(){
         $("#sendMessageButton").click(function (e) {
             e.preventDefault();
+            //$(this).val("Envoi en cours...");
+            $(this).attr("disabled", true);
             var url = "{{ path('send_message')}}";
             var query = $("#contactForm").serialize();
 
@@ -259,7 +262,7 @@
                 type: "POST",
                 data: query,
                 success: function(result){
-                   console.log(result);
+                   $(this).val("Message envoyé");
                 }
             });
         });
