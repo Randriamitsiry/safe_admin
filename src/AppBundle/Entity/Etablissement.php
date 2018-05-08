@@ -94,6 +94,10 @@ class Etablissement
      * @Assert\File(mimeTypes={ "image/jpeg", "image/jpg", "image/png" }, mimeTypesMessage="format invalide")
      */
     private $logo;
+    /**
+     * @ORM\OneToMany(targetEntity="Promotion", mappedBy="etablissement")
+     */
+    private $promotions;
 
     /**
      * @return string
@@ -396,5 +400,67 @@ class Etablissement
     {
         // TODO: Implement __toString() method.
         return $this->getSigle() ." | ".$this->getNom();
+    }
+
+    /**
+     * Add formation.
+     *
+     * @param \AppBundle\Entity\Formation $formation
+     *
+     * @return Etablissement
+     */
+    public function addFormation(\AppBundle\Entity\Formation $formation)
+    {
+        $this->formations[] = $formation;
+
+        return $this;
+    }
+
+    /**
+     * Remove formation.
+     *
+     * @param \AppBundle\Entity\Formation $formation
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeFormation(\AppBundle\Entity\Formation $formation)
+    {
+        return $this->formations->removeElement($formation);
+    }
+
+    /**
+     * Add promotion.
+     *
+     * @param \AppBundle\Entity\Promotion $promotion
+     *
+     * @return Etablissement
+     */
+    public function addPromotion(\AppBundle\Entity\Promotion $promotion)
+    {
+        $this->promotions[] = $promotion;
+
+        return $this;
+    }
+
+    /**
+     * Remove promotion.
+     *
+     * @param \AppBundle\Entity\Promotion $promotion
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removePromotion(\AppBundle\Entity\Promotion $promotion)
+    {
+        return $this->promotions->removeElement($promotion);
+    }
+
+    /**
+     * Get promotions.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPromotions()
+    {
+        return $this->promotions;
     }
 }
