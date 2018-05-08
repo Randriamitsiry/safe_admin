@@ -7,11 +7,27 @@
         </a>
     </div>
     <div class="button-action">
-        <a class="btn btn-default fa fa-file-pdf-o" href="{{ path('easyadmin', _request_parameters|merge({ action: "pdf" })) }}">
+        <a class="btn btn-default fa fa-file-pdf-o" id="btn_pdf">
             PDF
         </a>
     </div>
 {% endblock global_actions %}
 {% block body_javascript %}
     {{ parent() }}
+    <script src="{{ asset("js/jspdf.min.js") }}"></script>
+    <script src="{{ asset("js/html2pdf.js") }}"></script>
+    <script src="{{ asset("js/html2canvas.js") }}"></script>
+    <script>
+        $(function () {
+            $("#btn_pdf").click(function () {
+                html2canvas($("#main"), {
+                    onrendered: function(canvas) {
+                        // canvas is the final rendered <canvas> element
+                        var myImage = canvas.toDataURL("image/png");
+                        window.open(myImage);
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}

@@ -9,6 +9,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Contact;
+use AppBundle\Entity\Etudiants;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +32,12 @@ class ContactController extends Controller
             $contact->setNom($request->request->get("nom"));
             $contact->setMessage($request->request->get("message"));
             $contact->setEmail($request->request->get("email"));
-
+            $contact->setSubject($request->request->get("subject"));
+            $idE = $request->request->get("etudiant");
+            if($idE) {
+                $etudiant = $this->getDoctrine()->getRepository(Etudiants::class)->find($idE);
+                $contact->setEtudiant($etudiant);
+            }
             $em = $this->getDoctrine()->getManager();
             $em->persist($contact);
             $em->flush();

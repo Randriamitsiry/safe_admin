@@ -8,6 +8,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Etudiants;
 use AppBundle\Entity\Formation;
 use AppBundle\Entity\Inscription;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
@@ -17,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AdminController extends BaseAdminController
 {
+    public static $entityname;
     /**
      * @Route("/admin", name="easyadmin")
      * @param Request $request
@@ -24,6 +26,7 @@ class AdminController extends BaseAdminController
      */
     public function indexAction(Request $request)
     {
+        $this::$entityname = $request->query->get("entity");
         $denied = ["Users", "Etablissement", "Etudiant", "Directeur"];
         if ( in_array($request->query->get("entity"), $denied))
         {
@@ -53,7 +56,26 @@ class AdminController extends BaseAdminController
 
     public function exportAction()
     {
-        exec("wkhtmltopdf www.google.com test.pdf");
+        $snappy = $this->get('knp_snappy.pdf');
+        $items= $this->getDoctrine()->getRepository($this->entity["class"])->findAll();
+        $columns = $this->getDoctrine()->getEntityManager()->getClassMetadata($this->entity["class"])->getColumnNames();
+
+        $html = $this->renderView('AppBundle/Default/list.html.twig', array(
+            "items"=>$items,
+            "columns"=>$columns
+        ));
+
+        $filename = 'myFirstSnappyPDF';
+
+        return new Response(
+            $snappy->getOutputFromHtml($html),
+            200,
+            array(
+                'Content-Type'          => 'application/pdf',
+                'Content-Disposition'   => 'inline; filename="'.$filename.'.pdf"'
+            )
+        );
+        //return new Response($this->entity["class"]);
     }
 
     /**

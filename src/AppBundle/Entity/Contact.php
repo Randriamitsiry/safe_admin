@@ -50,6 +50,34 @@ class Contact extends Controller
      */
     private $dateEnvoi;
 
+    /**
+     * @var Etudiants
+     * @ORM\ManyToOne(targetEntity="Etudiants")
+     * @ORM\JoinColumn(referencedColumnName="idetudiant")
+     */
+    private $etudiant;
+
+    /**
+     * @var string
+     * @ORM\Column(name="sujet", type="string")
+     */
+    private $subject;
+
+    /**
+     * @return string
+     */
+    public function getSubject(): string
+    {
+        return $this->subject;
+    }
+
+    /**
+     * @param string $subject
+     */
+    public function setSubject(string $subject): void
+    {
+        $this->subject = $subject;
+    }
 
     /**
      * Get id.
@@ -59,6 +87,22 @@ class Contact extends Controller
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return Etudiants
+     */
+    public function getEtudiant(): Etudiants
+    {
+        return $this->etudiant;
+    }
+
+    /**
+     * @param Etudiants $etudiant
+     */
+    public function setEtudiant(Etudiants $etudiant): void
+    {
+        $this->etudiant = $etudiant;
     }
 
     /**

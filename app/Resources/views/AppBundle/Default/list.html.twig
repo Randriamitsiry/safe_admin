@@ -1,0 +1,39 @@
+{% block main %}
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            {% block table_head %}
+                <tr>
+                    {% for col in columns %}
+                        <th>
+                            {{ col }}
+                        </th>
+                    {% endfor %}
+                </tr>
+            {% endblock table_head %}
+            </thead>
+
+            <tbody>
+            {% block table_body %}
+                {% for item in items %}
+                    <tr>
+                        {% for col in columns %}
+                            {% if item[col].timestamp is defined %}
+                                <td>
+                                    {{ item[col] | date('d/M/Y') }}
+                                </td>
+
+                                {% else %}
+                                <td>
+                                    {{ item[col] }}
+                                </td>
+                            {% endif %}
+                       {% endfor %}
+                    </tr>
+                {% endfor %}
+            {% endblock table_body %}
+            </tbody>
+        </table>
+    </div>
+{% endblock main %}
+

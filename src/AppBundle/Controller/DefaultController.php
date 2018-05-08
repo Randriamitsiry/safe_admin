@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Etudiants;
 use AppBundle\Entity\Inscription;
 use AppBundle\Entity\Obtention;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -24,12 +25,16 @@ class DefaultController extends Controller
      */
     public function testAction($idE)
     {
+        $etudiant = $this->getDoctrine()->getRepository(Etudiants::class)->find($idE);
         $obtention = $this->getDoctrine()->getRepository(Obtention::class)->getObtention($idE);
 
         $inscription = $this->getDoctrine()->getRepository(Inscription::class)->getInscription($idE);
 
         //return new Response(var_dump($obtention));
-        return $this->render("AppBundle:Default:result.html.twig", array("results"=>$obtention, "inscription"=>$inscription));
+        return $this->render("AppBundle:Default:result.html.twig", array(
+                "results"=>$obtention,
+                "inscription"=>$inscription,
+                "etudiant"=>$etudiant));
     }
 
     /**

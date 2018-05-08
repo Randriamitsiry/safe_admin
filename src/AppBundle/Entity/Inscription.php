@@ -63,7 +63,7 @@ class Inscription
      *
      * @ORM\ManyToOne(targetEntity="Etudiants")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idEtudiant", referencedColumnName="idEtudiant")
+     *   @ORM\JoinColumn(name="idEtudiant", referencedColumnName="idetudiant")
      * })
      */
     private $etudiant;

@@ -45,7 +45,7 @@
                     <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about">Diplômes</a>
                 </li>
                 <li class="nav-item mx-0 mx-lg-1">
-                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact">Notes</a>
+                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact">CONTACTEZ</a>
                 </li>
                 <li class="nav-item mx-0 mx-lg-1">
                     <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="{{ path('app_default_index') }}">Nouvel recherche</a>
@@ -58,11 +58,11 @@
 <!-- Header -->
 <header class="masthead bg-primary text-white text-center">
     <div class="container">
-        {% if results is empty %}
+        {% if etudiant is empty %}
             <h2 class="font-weight-light mb-0">Aucun resultat trouvé</h2>
         {% else %}
-            <img class="img-fluid mb-5 d-block mx-auto" src="{{ asset('uploads/etudiant/'~ results[0]["idInscription"]['etudiant']['photos']) }}" alt="">
-            <h1 class="text-uppercase mb-0">{{ results[0]["idInscription"]["etudiant"]["nom"] ~" "~ results[0]["idInscription"]["etudiant"]["prenom"]}} </h1>
+            <img class="img-fluid mb-5 d-block mx-auto" src="{{ asset('uploads/etudiant/'~ etudiant.photos) }}" alt="">
+            <h1 class="text-uppercase mb-0">{{ etudiant.nom ~" "~ etudiant.prenom}} </h1>
             <hr class="star-light">
         {% endif %}
     </div>
@@ -136,31 +136,41 @@
 <!-- Contact Section -->
 <section id="contact">
     <div class="container">
-        <h2 class="text-center text-uppercase text-secondary mb-0">Remarque</h2>
+        <h2 class="text-center text-uppercase text-secondary mb-0">Contactez ce profils</h2>
         <hr class="star-dark mb-5">
         <div class="row">
             <div class="col-lg-8 mx-auto">
                 <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19. -->
                 <!-- The form should work on most web servers, but if the form is not working you may need to configure your web server differently. -->
                 <form name="sentMessage" id="contactForm" novalidate="novalidate">
+                    {% if etudiant %}
+                        <input type="hidden" value="{{ etudiant.idetudiant }}" name="etudiant">
+                    {% endif %}
                     <div class="control-group">
                         <div class="form-group floating-label-form-group controls mb-0 pb-2">
                             <label>Nom</label>
-                            <input class="form-control" id="name" name="nom" type="text" placeholder="Name" required="required" data-validation-required-message="Votre nom s'il vous plait">
+                            <input class="form-control" id="name" name="nom" type="text" placeholder="Votre nom s'il vous plait" required="required" data-validation-required-message="Votre nom s'il vous plait">
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
                     <div class="control-group">
                         <div class="form-group floating-label-form-group controls mb-0 pb-2">
                             <label>Adresse email</label>
-                            <input class="form-control" id="email" type="email" name="email" placeholder="Email Address" required="required" data-validation-required-message="Votre adresse email">
+                            <input class="form-control" id="email" type="email" name="email" placeholder="Votre adresse email" required="required" data-validation-required-message="Votre adresse email">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                            <label>Sujet</label>
+                            <input class="form-control"  name="subject" placeholder="Sujet de votre message">
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
                     <div class="control-group">
                         <div class="form-group floating-label-form-group controls mb-0 pb-2">
                             <label>Message</label>
-                            <textarea class="form-control" id="message" name="message" rows="5" placeholder="Message" required="required" data-validation-required-message="Mettez ici le contenu de votre message"></textarea>
+                            <textarea class="form-control" id="message" name="message" rows="5" placeholder="Mettez ici le contenu de votre message" required="required" data-validation-required-message="Mettez ici le contenu de votre message"></textarea>
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
@@ -180,7 +190,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4 mb-5 mb-lg-0">
-                <h4 class="text-uppercase mb-4">Geek inside</h4>
+                <h4 class="text-uppercase mb-4">Jess DEV</h4>
                 <p class="lead mb-0">Adresse / Appartement
                     <br>(+261) 34 97 889 05 / (+261) 34 20 772 92</p>
             </div>
@@ -252,8 +262,6 @@
     $(function(){
         $("#sendMessageButton").click(function (e) {
             e.preventDefault();
-            //$(this).val("Envoi en cours...");
-            $(this).attr("disabled", true);
             var url = "{{ path('send_message')}}";
             var query = $("#contactForm").serialize();
 
