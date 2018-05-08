@@ -1,0 +1,61 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use FOS\UserBundle\Model\User as BaseUser;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use AppBundle\Resource\TimestampableTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use AppBundle\Entity\Promotion;
+
+/**
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ExamenRepository")
+ * @ORM\Table(name="examen")
+ * @ORM\HasLifecycleCallbacks()
+ */
+class Examen
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message="message.form.notblank.examen", groups={"admin_user_create", "admin_user_edit", "admin_user_edit_profile"})
+     */
+    protected $name;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Promotion", inversedBy="examens", cascade={"persist"})
+     */
+    public $promotions;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="dateOuverture", type="datetime")
+     **/
+    public $dateOuverture;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="dateFermeture", type="datetime")
+     */
+    public $dateFermeture;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="duree", type="time")
+     */
+    public $duree;
+
+}

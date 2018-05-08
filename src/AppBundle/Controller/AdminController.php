@@ -90,4 +90,59 @@ class AdminController extends BaseAdminController
     {
 
     }
+    public function createFormationListQueryBuilder($entityClass, $sortDirection, $sortField = null)
+    {
+        $usr= $this->get('security.token_storage')->getToken()->getUser();
+        $etablissement = $usr->getEtablissement();
+        $queryBuilder = $this->em->createQueryBuilder()->select('entity')->from($entityClass, 'entity')->where('entity.etablissement = :etablissement')
+            ->setParameter("etablissement", $etablissement);
+
+        if (null !== $sortField) {
+            $queryBuilder->orderBy('entity.'.$sortField, $sortDirection);
+        }
+
+        return $queryBuilder;
+    }
+    public function createInscriptionListQueryBuilder($entityClass, $sortDirection, $sortField = null)
+    {
+        $usr= $this->get('security.token_storage')->getToken()->getUser();
+        $etablissement = $usr->getEtablissement();
+        $queryBuilder = $this->em->createQueryBuilder()->select('entity')->from($entityClass, 'entity')->where('entity.etablissement = :etablissement')
+            ->setParameter("etablissement", $etablissement);
+
+        if (null !== $sortField) {
+            $queryBuilder->orderBy('entity.'.$sortField, $sortDirection);
+        }
+
+        return $queryBuilder;
+    }
+    public function createObtentionListQueryBuilder($entityClass, $sortDirection, $sortField = null)
+    {
+        $usr= $this->get('security.token_storage')->getToken()->getUser();
+        $etablissement = $usr->getEtablissement();
+        $queryBuilder = $this->em->createQueryBuilder()->select('entity')->from($entityClass, 'entity')
+            ->join("entity.idInscription", "inscription")
+            ->where('inscription.etablissement = :etablissement')
+            ->setParameter("etablissement", $etablissement);
+
+        if (null !== $sortField) {
+            $queryBuilder->orderBy('entity.'.$sortField, $sortDirection);
+        }
+
+        return $queryBuilder;
+    }
+    public function createAnneeScolaireListQueryBuilder($entityClass, $sortDirection, $sortField = null)
+    {
+        $usr= $this->get('security.token_storage')->getToken()->getUser();
+        $etablissement = $usr->getEtablissement();
+        $queryBuilder = $this->em->createQueryBuilder()->select('entity')->from($entityClass, 'entity')
+            ->where('entity.Etablissement = :etablissement')
+            ->setParameter("etablissement", $etablissement);
+
+        if (null !== $sortField) {
+            $queryBuilder->orderBy('entity.'.$sortField, $sortDirection);
+        }
+
+        return $queryBuilder;
+    }
 }

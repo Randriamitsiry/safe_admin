@@ -126,6 +126,7 @@ easy_admin:
                     - { property: 'situationMatrimoniale', label: "situation", type: choice, type_options: {choices : {"Célibataire": "C", "Marié(e)":"M", "Veuf(ve)":"V"}}}
                     - { property: 'cin', label: "CIN"}
               list:
+
                   actions: ["show"]
                   fields:
                     - { property: 'photos', type: 'image', base_path: "/uploads/etudiant" }
@@ -213,6 +214,12 @@ easy_admin:
         Inscription:
             class : AppBundle\Entity\Inscription
 
+        Promotion:
+            class : AppBundle\Entity\Promotion
+
+        Cours:
+            class : AppBundle\Entity\PromotionCours
+
         Niveau :
             class: AppBundle\Entity\Niveau
 
@@ -278,6 +285,7 @@ easy_admin:
         - {entity : "Etudiants", icon: "user", label: "Etudiant"}
         - {entity : "Directeur", icon: "group"}
         - {entity : "Etablissement", icon: "home"}
+        - {entity : "Promotion", icon: "book"}
         - {entity : "Formation", icon: "book"}
         - {entity : "Inscription", icon: "check"}
         - {entity : "Niveau", icon: "ticket"}

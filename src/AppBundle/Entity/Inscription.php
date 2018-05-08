@@ -36,7 +36,7 @@ class Inscription
      *   @ORM\JoinColumn(name="id_etablissement", referencedColumnName="id_etablissement")
      * })
      */
-    private $Etablissement;
+    private $etablissement;
 
     /**
      * @var Formation
@@ -145,7 +145,7 @@ class Inscription
      */
     public function setEtablissement(\AppBundle\Entity\Etablissement $etablissement = null)
     {
-        $this->Etablissement = $etablissement;
+        $this->etablissement = $etablissement;
 
         return $this;
     }
@@ -157,7 +157,7 @@ class Inscription
      */
     public function getEtablissement()
     {
-        return $this->Etablissement;
+        return $this->etablissement;
     }
 
     /**

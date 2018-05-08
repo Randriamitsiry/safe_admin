@@ -69,8 +69,8 @@ class Promotion
      */
     public function __construct()
     {
-        $this->promotionCours = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->examens = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->promotionCours = new ArrayCollection();
+        $this->examens = new ArrayCollection();
     }
 
     /**
