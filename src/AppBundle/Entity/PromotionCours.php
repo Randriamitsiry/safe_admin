@@ -27,7 +27,7 @@ class PromotionCours
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateDebut", type="datetime", nullable=true)
+     * @ORM\Column(name="dateDebut", type="date", nullable=true)
      * @Assert\NotNull()
      */
     private $dateDebut;
@@ -35,7 +35,7 @@ class PromotionCours
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateFin", type="datetime", nullable=true)
+     * @ORM\Column(name="dateFin", type="date", nullable=true)
      *
      */
     private $dateFin;
@@ -134,5 +134,34 @@ class PromotionCours
     public function getPromotion()
     {
         return $this->promotion;
+    }
+
+    /**
+     * Set libelle.
+     *
+     * @param string $libelle
+     *
+     * @return PromotionCours
+     */
+    public function setLibelle($libelle)
+    {
+        $this->libelle = $libelle;
+
+        return $this;
+    }
+
+    /**
+     * Get libelle.
+     *
+     * @return string
+     */
+    public function getLibelle()
+    {
+        return $this->libelle;
+    }
+
+    public function __toString()
+    {
+        return $this->getLibelle();
     }
 }

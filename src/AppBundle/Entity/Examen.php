@@ -33,30 +33,24 @@ class Examen
     protected $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Promotion", inversedBy="examens", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Promotion", inversedBy="examens", cascade={"persist"})
      */
     public $promotions;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="dateOuverture", type="datetime")
+     * @ORM\Column(name="dateOuverture", type="date")
      **/
     public $dateOuverture;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="dateFermeture", type="datetime")
+     * @ORM\Column(name="dateFermeture", type="date")
      */
     public $dateFermeture;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="duree", type="time")
-     */
-    public $duree;
 
     /**
      * Constructor
@@ -149,30 +143,6 @@ class Examen
     }
 
     /**
-     * Set duree.
-     *
-     * @param \DateTime $duree
-     *
-     * @return Examen
-     */
-    public function setDuree($duree)
-    {
-        $this->duree = $duree;
-
-        return $this;
-    }
-
-    /**
-     * Get duree.
-     *
-     * @return \DateTime
-     */
-    public function getDuree()
-    {
-        return $this->duree;
-    }
-
-    /**
      * Add promotion.
      *
      * @param \AppBundle\Entity\Promotion $promotion
@@ -206,5 +176,24 @@ class Examen
     public function getPromotions()
     {
         return $this->promotions;
+    }
+
+    /**
+     * Set promotions.
+     *
+     * @param \AppBundle\Entity\Promotion|null $promotions
+     *
+     * @return Examen
+     */
+    public function setPromotions(\AppBundle\Entity\Promotion $promotions = null)
+    {
+        $this->promotions = $promotions;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
     }
 }

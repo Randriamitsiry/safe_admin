@@ -95,15 +95,16 @@ class Etablissement
      * @Assert\File(mimeTypes={ "image/jpeg", "image/jpg", "image/png" }, mimeTypesMessage="format invalide")
      */
     private $logo;
-    /**
-     * @ORM\OneToMany(targetEntity="Promotion", mappedBy="etablissement")
-     */
-    private $promotions;
 
     /**
-     * @ORM\OneToMany(targetEntity="Niveau", mappedBy="etablissement")
+     * @ORM\OneToMany(targetEntity="Niveau", mappedBy="etablissement", cascade={"persist"})
      */
     private $niveaux;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AnneeScolaire", mappedBy="Etablissement")
+     */
+    private $annees;
 
     /**
      * @return string
@@ -504,5 +505,41 @@ class Etablissement
     public function getNiveaux()
     {
         return $this->niveaux;
+    }
+
+    /**
+     * Add annee.
+     *
+     * @param \AppBundle\Entity\AnneeScolaire $annee
+     *
+     * @return Etablissement
+     */
+    public function addAnnee(\AppBundle\Entity\AnneeScolaire $annee)
+    {
+        $this->annees[] = $annee;
+
+        return $this;
+    }
+
+    /**
+     * Remove annee.
+     *
+     * @param \AppBundle\Entity\AnneeScolaire $annee
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeAnnee(\AppBundle\Entity\AnneeScolaire $annee)
+    {
+        return $this->annees->removeElement($annee);
+    }
+
+    /**
+     * Get annees.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAnnees()
+    {
+        return $this->annees;
     }
 }

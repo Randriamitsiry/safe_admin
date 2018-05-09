@@ -497,4 +497,30 @@ class Users implements UserInterface, \Serializable
 
         $this->setAvatar($fileName);
     }
+
+    /**
+     * Add role.
+     *
+     * @param \AppBundle\Entity\Role $role
+     *
+     * @return Users
+     */
+    public function addRole(\AppBundle\Entity\Role $role)
+    {
+        $this->roles[] = $role;
+
+        return $this;
+    }
+
+    /**
+     * Remove role.
+     *
+     * @param \AppBundle\Entity\Role $role
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeRole(\AppBundle\Entity\Role $role)
+    {
+        return $this->roles->removeElement($role);
+    }
 }

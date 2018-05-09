@@ -8,6 +8,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\AnneeScolaire;
 use AppBundle\Entity\Etudiants;
 use AppBundle\Entity\Formation;
 use AppBundle\Entity\Inscription;
@@ -28,8 +29,9 @@ class AdminController extends BaseAdminController
     public function indexAction(Request $request)
     {
         $this::$entityname = $request->query->get("entity");
+        $action = $request->query->get("action");
         $denied = ["Users", "Etablissement", "Etudiant", "Directeur"];
-        if ( in_array($request->query->get("entity"), $denied))
+        if ( in_array($request->query->get("entity"), $denied) && $action != "show")
         {
             $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN', null, 'Vous ne pouvez pas accèdez à cette page');
         } else {
@@ -46,13 +48,30 @@ class AdminController extends BaseAdminController
      */
     protected function preUpdateEntity($entity)
     {
-        if ($entity instanceof Formation || $entity instanceof Inscription || $entity instanceof Niveau) {
+        if ($entity instanceof Formation || $entity instanceof Inscription || $entity instanceof Niveau || $entity instanceof AnneeScolaire) {
             $user = $this->get('security.token_storage')->getToken()->getUser();
 
             $entity->setEtablissement($user->getEtablissement());
         }
 
         parent::preUpdateEntity($entity);
+    }
+
+    /**
+     * Allows applications to modify the entity associated with the item being
+     * created before persisting it.
+     *
+     * @param object $entity
+     */
+    protected function prePersistEntity($entity)
+    {
+        if ($entity instanceof Formation || $entity instanceof Inscription || $entity instanceof Niveau || $entity instanceof AnneeScolaire) {
+            $user = $this->get('security.token_storage')->getToken()->getUser();
+
+            $entity->setEtablissement($user->getEtablissement());
+        }
+
+        parent::prePersistEntity($entity);
     }
 
     public function exportAction()
@@ -123,7 +142,7 @@ class AdminController extends BaseAdminController
         $etablissement = $usr->getEtablissement();
         $queryBuilder = $this->em->createQueryBuilder()->select('entity')->from($entityClass, 'entity')
             ->join("entity.idInscription", "inscription")
-            ->where('ihttps://www.bocasay.com/nscription.etablissement = :etablissement')
+            ->where('inscription.etablissement = :etablissement')
             ->setParameter("etablissement", $etablissement);
 
         if (null !== $sortField) {

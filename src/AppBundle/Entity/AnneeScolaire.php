@@ -39,7 +39,7 @@ class AnneeScolaire
     /**
      * @var Etablissement
      *
-     * @ORM\ManyToOne(targetEntity="Etablissement")
+     * @ORM\ManyToOne(targetEntity="Etablissement", inversedBy="annees")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_etablissement", referencedColumnName="id_etablissement")
      * })
@@ -133,8 +133,14 @@ class AnneeScolaire
 
     public function __toString()
     {
-        $parser = new YearTransformer();
-        return $this->getEtablissement()->getSigle()."/".$parser->format($this->dateDebut, 4);
+        try{
+            $parser = new YearTransformer();
+            return $this->getEtablissement()->getSigle()."/".$parser->format($this->dateDebut, 4);
+        }
+        catch (\Exception $e) {
+            return null;
+        }
+
         // TODO: Implement __toString() method.
     }
 }

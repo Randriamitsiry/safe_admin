@@ -44,11 +44,12 @@ class Promotion
      */
     private $name;
 
+
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Etablissement", inversedBy="promotions", cascade={"persist"})
-     * @ORM\JoinColumn(referencedColumnName="id_etablissement")
+     * @ORM\OneToOne(targetEntity="AnneeScolaire")
+     * @ORM\JoinColumn(referencedColumnName="id_annee_scolaire")
      */
-    private $etablissement;
+    private $anneescolaire;
 
     /**
      *
@@ -60,8 +61,177 @@ class Promotion
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Examen", mappedBy="promotions", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Examen", mappedBy="promotions", cascade={"persist"})
      */
     private $examens;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->promotionCours = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->examens = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set codeList.
+     *
+     * @param string|null $codeList
+     *
+     * @return Promotion
+     */
+    public function setCodeList($codeList = null)
+    {
+        $this->codeList = $codeList;
+
+        return $this;
+    }
+
+    /**
+     * Get codeList.
+     *
+     * @return string|null
+     */
+    public function getCodeList()
+    {
+        return $this->codeList;
+    }
+
+    /**
+     * Set name.
+     *
+     * @param string|null $name
+     *
+     * @return Promotion
+     */
+    public function setName($name = null)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name.
+     *
+     * @return string|null
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set anneecolaire.
+     *
+     * @param \AppBundle\Entity\AnneeScolaire|null $anneecolaire
+     *
+     * @return Promotion
+     */
+    public function setAnneescolaire(\AppBundle\Entity\AnneeScolaire $anneescolaire = null)
+    {
+        $this->anneescolaire = $anneescolaire;
+
+        return $this;
+    }
+
+    /**
+     * Get anneecolaire.
+     *
+     * @return \AppBundle\Entity\AnneeScolaire|null
+     */
+    public function getAnneescolaire()
+    {
+        return $this->anneescolaire;
+    }
+
+    /**
+     * Add promotionCour.
+     *
+     * @param \AppBundle\Entity\PromotionCours $promotionCour
+     *
+     * @return Promotion
+     */
+    public function addPromotionCour(\AppBundle\Entity\PromotionCours $promotionCour)
+    {
+        if (!$this->promotionCours->contains($promotionCour)) {
+            $this->promotionCours[] = $promotionCour;
+            $promotionCour->setPromotion($this);
+        }
+        $this->promotionCours[] = $promotionCour;
+
+        return $this;
+    }
+
+    /**
+     * Remove promotionCour.
+     *
+     * @param \AppBundle\Entity\PromotionCours $promotionCour
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removePromotionCour(\AppBundle\Entity\PromotionCours $promotionCour)
+    {
+        return $this->promotionCours->removeElement($promotionCour);
+    }
+
+    /**
+     * Get promotionCours.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPromotionCours()
+    {
+        return $this->promotionCours;
+    }
+
+    /**
+     * Add examen.
+     *
+     * @param \AppBundle\Entity\Examen $examen
+     *
+     * @return Promotion
+     */
+    public function addExamen(\AppBundle\Entity\Examen $examen)
+    {
+        if (!$this->examens->contains($examen)) {
+            $this->examens[] = $examen;
+        }
+        $this->examens[] = $examen;
+
+        return $this;
+    }
+
+    /**
+     * Remove examen.
+     *
+     * @param \AppBundle\Entity\Examen $examen
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeExamen(\AppBundle\Entity\Examen $examen)
+    {
+        return $this->examens->removeElement($examen);
+    }
+
+    /**
+     * Get examens.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getExamens()
+    {
+        return $this->examens;
+    }
 }

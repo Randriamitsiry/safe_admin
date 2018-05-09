@@ -27,7 +27,7 @@ class PromotionCours
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateDebut", type="datetime", nullable=true)
+     * @ORM\Column(name="dateDebut", type="date", nullable=true)
      * @Assert\NotNull()
      */
     private $dateDebut;
@@ -35,10 +35,15 @@ class PromotionCours
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateFin", type="datetime", nullable=true)
+     * @ORM\Column(name="dateFin", type="date", nullable=true)
      *
      */
     private $dateFin;
+
+    /**
+     * @ORM\Column(name="libelle", type="string")
+     */
+    private $libelle;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Promotion", inversedBy="promotionCours")
@@ -48,4 +53,110 @@ class PromotionCours
      */
     private $promotion;
 
+
+    /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set dateDebut.
+     *
+     * @param \DateTime|null $dateDebut
+     *
+     * @return PromotionCours
+     */
+    public function setDateDebut($dateDebut = null)
+    {
+        $this->dateDebut = $dateDebut;
+
+        return $this;
+    }
+
+    /**
+     * Get dateDebut.
+     *
+     * @return \DateTime|null
+     */
+    public function getDateDebut()
+    {
+        return $this->dateDebut;
+    }
+
+    /**
+     * Set dateFin.
+     *
+     * @param \DateTime|null $dateFin
+     *
+     * @return PromotionCours
+     */
+    public function setDateFin($dateFin = null)
+    {
+        $this->dateFin = $dateFin;
+
+        return $this;
+    }
+
+    /**
+     * Get dateFin.
+     *
+     * @return \DateTime|null
+     */
+    public function getDateFin()
+    {
+        return $this->dateFin;
+    }
+
+    /**
+     * Set promotion.
+     *
+     * @param \AppBundle\Entity\Promotion|null $promotion
+     *
+     * @return PromotionCours
+     */
+    public function setPromotion(\AppBundle\Entity\Promotion $promotion = null)
+    {
+        $this->promotion = $promotion;
+
+        return $this;
+    }
+
+    /**
+     * Get promotion.
+     *
+     * @return \AppBundle\Entity\Promotion|null
+     */
+    public function getPromotion()
+    {
+        return $this->promotion;
+    }
+
+    /**
+     * Set libelle.
+     *
+     * @param string $libelle
+     *
+     * @return PromotionCours
+     */
+    public function setLibelle($libelle)
+    {
+        $this->libelle = $libelle;
+
+        return $this;
+    }
+
+    /**
+     * Get libelle.
+     *
+     * @return string
+     */
+    public function getLibelle()
+    {
+        return $this->libelle;
+    }
 }

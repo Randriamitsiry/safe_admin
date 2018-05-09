@@ -110,4 +110,44 @@ class Role implements RoleInterface
         return $this->getName();
         // TODO: Implement __toString() method.
     }
+
+    /**
+     * Set role.
+     *
+     * @param string $role
+     *
+     * @return Role
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * Add user.
+     *
+     * @param \AppBundle\Entity\Users $user
+     *
+     * @return Role
+     */
+    public function addUser(\AppBundle\Entity\Users $user)
+    {
+        $this->users[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Remove user.
+     *
+     * @param \AppBundle\Entity\Users $user
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeUser(\AppBundle\Entity\Users $user)
+    {
+        return $this->users->removeElement($user);
+    }
 }

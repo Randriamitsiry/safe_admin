@@ -33,29 +33,148 @@ class Examen
     protected $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Promotion", inversedBy="examens", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Promotion", inversedBy="examens", cascade={"persist"})
      */
     public $promotions;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="dateOuverture", type="datetime")
+     * @ORM\Column(name="dateOuverture", type="date")
      **/
     public $dateOuverture;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="dateFermeture", type="datetime")
+     * @ORM\Column(name="dateFermeture", type="date")
      */
     public $dateFermeture;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="duree", type="time")
-     */
-    public $duree;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->promotions = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name.
+     *
+     * @param string|null $name
+     *
+     * @return Examen
+     */
+    public function setName($name = null)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name.
+     *
+     * @return string|null
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set dateOuverture.
+     *
+     * @param \DateTime $dateOuverture
+     *
+     * @return Examen
+     */
+    public function setDateOuverture($dateOuverture)
+    {
+        $this->dateOuverture = $dateOuverture;
+
+        return $this;
+    }
+
+    /**
+     * Get dateOuverture.
+     *
+     * @return \DateTime
+     */
+    public function getDateOuverture()
+    {
+        return $this->dateOuverture;
+    }
+
+    /**
+     * Set dateFermeture.
+     *
+     * @param \DateTime $dateFermeture
+     *
+     * @return Examen
+     */
+    public function setDateFermeture($dateFermeture)
+    {
+        $this->dateFermeture = $dateFermeture;
+
+        return $this;
+    }
+
+    /**
+     * Get dateFermeture.
+     *
+     * @return \DateTime
+     */
+    public function getDateFermeture()
+    {
+        return $this->dateFermeture;
+    }
+
+    /**
+     * Add promotion.
+     *
+     * @param \AppBundle\Entity\Promotion $promotion
+     *
+     * @return Examen
+     */
+    public function addPromotion(\AppBundle\Entity\Promotion $promotion)
+    {
+        $this->promotions[] = $promotion;
+
+        return $this;
+    }
+
+    /**
+     * Remove promotion.
+     *
+     * @param \AppBundle\Entity\Promotion $promotion
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removePromotion(\AppBundle\Entity\Promotion $promotion)
+    {
+        return $this->promotions->removeElement($promotion);
+    }
+
+    /**
+     * Get promotions.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPromotions()
+    {
+        return $this->promotions;
+    }
 }
