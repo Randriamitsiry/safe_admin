@@ -11,6 +11,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Etudiants;
 use AppBundle\Entity\Formation;
 use AppBundle\Entity\Inscription;
+use AppBundle\Entity\Niveau;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -45,7 +46,7 @@ class AdminController extends BaseAdminController
      */
     protected function preUpdateEntity($entity)
     {
-        if ($entity instanceof Formation || $entity instanceof Inscription) {
+        if ($entity instanceof Formation || $entity instanceof Inscription || $entity instanceof Niveau) {
             $user = $this->get('security.token_storage')->getToken()->getUser();
 
             $entity->setEtablissement($user->getEtablissement());
@@ -122,7 +123,7 @@ class AdminController extends BaseAdminController
         $etablissement = $usr->getEtablissement();
         $queryBuilder = $this->em->createQueryBuilder()->select('entity')->from($entityClass, 'entity')
             ->join("entity.idInscription", "inscription")
-            ->where('inscription.etablissement = :etablissement')
+            ->where('ihttps://www.bocasay.com/nscription.etablissement = :etablissement')
             ->setParameter("etablissement", $etablissement);
 
         if (null !== $sortField) {

@@ -41,6 +41,11 @@ class PromotionCours
     private $dateFin;
 
     /**
+     * @ORM\Column(name="libelle", type="string")
+     */
+    private $libelle;
+
+    /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Promotion", inversedBy="promotionCours")
      * @ORM\JoinColumn(name="promotion_id", onDelete="CASCADE")
      * @Assert\NotBlank (message="Veuillez sélectionnez la liste des étudiants pour le cours.")

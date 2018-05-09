@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Entity\Etablissement;
 
 /**
  * Niveau
@@ -34,6 +35,12 @@ class Niveau
      * @ORM\Column(name="diplome_obtenu", nullable=true)
      */
     private $diplome;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Etablissement", inversedBy="niveaux")
+     * @ORM\JoinColumn(referencedColumnName="id_etablissement")
+     */
+    private $etablissement;
 
 
     /**
@@ -98,5 +105,29 @@ class Niveau
     {
         // TODO: Implement __toString() method.
         return $this->getLibelle();
+    }
+
+    /**
+     * Set etablissement.
+     *
+     * @param \AppBundle\Entity\Etablissement|null $etablissement
+     *
+     * @return Niveau
+     */
+    public function setEtablissement(\AppBundle\Entity\Etablissement $etablissement = null)
+    {
+        $this->etablissement = $etablissement;
+
+        return $this;
+    }
+
+    /**
+     * Get etablissement.
+     *
+     * @return \AppBundle\Entity\Etablissement|null
+     */
+    public function getEtablissement()
+    {
+        return $this->etablissement;
     }
 }

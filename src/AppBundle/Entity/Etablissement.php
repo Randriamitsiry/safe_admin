@@ -6,6 +6,7 @@ use AppBundle\Entity\Formation;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use AppBundle\Entity\Niveau;
 
 /**
  * Etablissement
@@ -98,6 +99,11 @@ class Etablissement
      * @ORM\OneToMany(targetEntity="Promotion", mappedBy="etablissement")
      */
     private $promotions;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Niveau", mappedBy="etablissement")
+     */
+    private $niveaux;
 
     /**
      * @return string
@@ -462,5 +468,41 @@ class Etablissement
     public function getPromotions()
     {
         return $this->promotions;
+    }
+
+    /**
+     * Add niveau.
+     *
+     * @param \AppBundle\Entity\Niveau $niveau
+     *
+     * @return Etablissement
+     */
+    public function addNiveaux(\AppBundle\Entity\Niveau $niveau)
+    {
+        $this->niveaux[] = $niveau;
+
+        return $this;
+    }
+
+    /**
+     * Remove niveau.
+     *
+     * @param \AppBundle\Entity\Niveau $niveau
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeNiveaux(\AppBundle\Entity\Niveau $niveau)
+    {
+        return $this->niveaux->removeElement($niveau);
+    }
+
+    /**
+     * Get niveaux.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getNiveaux()
+    {
+        return $this->niveaux;
     }
 }

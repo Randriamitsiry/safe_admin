@@ -45,7 +45,9 @@ class AnneeScolaire
      * })
      */
     private $Etablissement;
-
+    /**
+     * @ORM\OneToMany(targetEntity="Promo"
+     */
 
     /**
      * Get idAnneeScolaire
